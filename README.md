@@ -1,41 +1,87 @@
-# 🥷 Kikis-Cloak
-
-A lightweight Python tool that spoofs your MAC address on Linux, making your device unrecognizable to your router's device-based filters.
-
-## How It Works
-
-Your router identifies devices by their MAC address. Kikis-Cloak generates a random valid MAC address and assigns it to your network interface, making your device appear as a new, unknown device on the network.
+# Kikis Cloak
 
 ## Requirements
 
-- Linux
 - Python 3
-- `sudo` privileges (required to change network interface settings)
+- sudo privileges
 
-## Usage
+---
+
+## Installation & Setup
+
+### Step 1 — Clone or download the project
+
+```bash
+git clone https://github.com/your-username/kikis-cloak.git
+```
+
+### Step 2 — Navigate to the project directory
+
+```bash
+cd src/kikis-cloak
+```
+
+### Step 3 — Install dependencies (if any)
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 4 — Run the script
 
 ```bash
 sudo python main.py
 ```
 
-That's it. The script will:
-1. Detect your active network interface automatically
-2. Generate a random valid MAC address
-3. Apply it to your interface
+---
 
-## Verify It Worked
+## Automate with a Shell Script
+
+### Step 1 — Create the script
+
+Create a file called `cloak` with the following content:
 
 ```bash
-ip link show wlp61s0
+#!/bin/bash
+cd /full/path/to/src/kikis-cloak && sudo python main.py
 ```
 
-Look for the `link/ether` field — it should show your new spoofed MAC. Your original MAC will appear under `permaddr`.
+> Replace `/full/path/to/` with the actual path on your system.
 
-## ⚠️ Note
+### Step 2 — Make it executable
 
-The MAC change is **temporary** and resets on reboot. Run the script again after restarting if needed.
+```bash
+chmod +x cloak
+```
 
-## Tech Stack
+### Step 3 — Move it to your PATH
 
-- Python 3
-- Standard library only (`subprocess`, `re`, `random`, `argparse`)
+```bash
+sudo mv cloak /usr/local/bin/
+```
+
+### Step 4 — Run from anywhere
+
+```bash
+cloak
+```
+
+---
+
+## Verify Your PATH (optional)
+
+```bash
+echo $PATH
+```
+
+If you'd prefer to install for your user only (no sudo), place the script in `~/.local/bin/` instead and make sure it's in your PATH by adding this to `~/.bashrc`:
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+Then reload:
+
+```bash
+source ~/.bashrc
+```
